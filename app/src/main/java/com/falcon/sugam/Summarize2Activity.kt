@@ -12,9 +12,15 @@ import kotlinx.coroutines.launch
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.result.Result
 import org.json.JSONObject
+import android.graphics.Bitmap.CompressFormat
+import com.github.kittinunf.fuel.core.FuelManager
+import com.github.kittinunf.fuel.core.Response
+import java.io.File
+import java.io.FileOutputStream
+import java.io.IOException
 
 
-val url = "https://example.com/api/endpoint"
+val url = "http://34.171.182.83/upload"
 
 class Summarize2Activity : AppCompatActivity() {
 
@@ -27,14 +33,16 @@ class Summarize2Activity : AppCompatActivity() {
             val byteArray = intent.getByteArrayExtra("photo")
             val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)!!
             uploadPhoto(url, bitmap, language)
+
         }
     }
     private fun uploadPhoto(url: String, bitmap: Bitmap, language: String) {
         Log.i("ohhhhhs", bitmap.toString())
         Log.i("ohhhhhs", language)
+        val image = createJpgFile(bitmap)
         Fuel.post(url)
             .header("Content-Type" to "application/json")
-            .body("{ \"image\": \"$bitmap\", \"lang\": \"$language\" }")
+            .body("{ \"image\": \"$image\", \"lang\": \"$language\" }")
             .response { result ->
                 // Handle the response
                 when (result) {
@@ -55,5 +63,23 @@ class Summarize2Activity : AppCompatActivity() {
                     }
                 }
             }
+    }
+    private fun createJpgFile(bitmap: Bitmap?): File {
+        val jpgFile = File.createTempFile("image", ".jpg")
+        var fileOutputStream: FileOutputStream? = null
+        try {
+            fileOutputStream = FileOutputStream(jpgFile)
+            bitmap?.compress(CompressFormat.JPEG, 100, fileOutputStream)
+            fileOutputStream.flush()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        } finally {
+            try {
+                fileOutputStream?.close()
+            } catch (e: IOException) {
+                e.printStackTrace()
+            }
+        }
+        return jpgFile
     }
 }

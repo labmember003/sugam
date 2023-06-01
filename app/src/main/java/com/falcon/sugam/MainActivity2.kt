@@ -19,7 +19,7 @@ class MainActivity2 : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         val language = intent.getStringExtra("message")
-        Toast.makeText(this, language, Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, language, Toast.LENGTH_SHORT).show()
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
