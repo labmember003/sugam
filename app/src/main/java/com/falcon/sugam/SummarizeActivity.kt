@@ -18,7 +18,6 @@ private lateinit var binding: ActivitySummarizeBinding
 
 class SummarizeActivity : AppCompatActivity() {
 
-    val summarizeAPIService = Api.fileApiService
     companion object {
         // Define the pic id
         private const val pic_id = 123
