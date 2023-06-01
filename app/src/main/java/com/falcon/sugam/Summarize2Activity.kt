@@ -19,16 +19,20 @@ import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import android.content.Intent
+import android.media.Image
 import android.provider.MediaStore
+import android.speech.tts.TextToSpeech
+import android.widget.ImageView
 import android.widget.Toast
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.latin.TextRecognizerOptions
+import java.util.*
 
 val url = "http://34.171.182.83/upload"
 
 class Summarize2Activity : AppCompatActivity() {
-
+    lateinit var tts: TextToSpeech
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +45,15 @@ class Summarize2Activity : AppCompatActivity() {
 //            uploadPhoto(url, bitmap, language)
 //
 //        }
+        findViewById<ImageView>(R.id.speakerButton).setOnClickListener {
+            tts = TextToSpeech(this.applicationContext, TextToSpeech.OnInitListener {
+                if (it == TextToSpeech.SUCCESS) {
+                    tts.language = Locale.US
+                    tts.setSpeechRate(1.0f)
+                    tts.speak(findViewById<TextView>(R.id.summarizedText).text.toString(), TextToSpeech.QUEUE_ADD, null)
+                }
+            })
+        }
     }
     private fun uploadPhoto(url: String, bitmap: Bitmap, language: String) {
         Log.i("ohhhhhs", bitmap.toString())
