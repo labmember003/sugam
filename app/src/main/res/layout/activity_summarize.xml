@@ -7,14 +7,29 @@
     tools:context=".SummarizeActivity">
 
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/buttonSummarize1"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginEnd="10dp"
+        android:windowSoftInputMode="adjustResize"
+        app:layout_constraintBottom_toTopOf="@+id/scanButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:lottie_autoPlay="true"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/upload" />
+
     <Button
         android:id="@+id/scanButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/black"
         android:text="SCAN IMAGE"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="150dp"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

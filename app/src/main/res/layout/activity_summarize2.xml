@@ -7,12 +7,61 @@
     tools:context=".Summarize2Activity">
 
     <TextView
-        android:id="@+id/summarizedText"
-        android:layout_width="wrap_content"
+        android:id="@+id/title"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:padding="16dp"
+        android:fontFamily="@font/nunito"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        />
+    <androidx.cardview.widget.CardView
+        android:id="@+id/summarizedTextCardView"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:padding="45dp"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        >
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/summarizedText"
+                android:padding="24dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:text="@string/lorem_ipsum"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+        </ScrollView>
+    </androidx.cardview.widget.CardView>
+    <ScrollView
+        android:id="@+id/svView"
+        android:layout_width="match_parent"
+        android:layout_height="350dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/summarizedTextCardView"
+        >
+
+    </ScrollView>
+    <ImageView
+        android:id="@+id/speakerButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/svView"
+        android:src="@drawable/speaker"
         />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -24,12 +24,12 @@ class MainActivity2 : AppCompatActivity() {
         setContentView(binding.root)
 
 
-        binding.buttonSummarize.setOnClickListener {
+        binding.buttonSummarize1.setOnClickListener {
             val intent = Intent(this, SummarizeActivity::class.java)
             intent.putExtra("message", language)
             startActivity(intent)
         }
-        binding.buttonComify.setOnClickListener {
+        binding.buttonComify2.setOnClickListener {
             val intent = Intent(this, CommifyActivity::class.java)
             startActivity(intent)
         }
