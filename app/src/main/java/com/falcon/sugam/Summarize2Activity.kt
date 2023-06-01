@@ -33,13 +33,14 @@ class Summarize2Activity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_summarize2)
-        CoroutineScope(Dispatchers.Main).launch {
-            val language = intent.getStringExtra("message") ?: "English"
-            val byteArray = intent.getByteArrayExtra("photo")
-            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)!!
-            uploadPhoto(url, bitmap, language)
-
-        }
+        findViewById<TextView>(R.id.summarizedText).text = intent.getStringExtra("message")
+//        CoroutineScope(Dispatchers.Main).launch {
+//            val language = intent.getStringExtra("message") ?: "English"
+//            val byteArray = intent.getByteArrayExtra("photo")
+//            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)!!
+//            uploadPhoto(url, bitmap, language)
+//
+//        }
     }
     private fun uploadPhoto(url: String, bitmap: Bitmap, language: String) {
         Log.i("ohhhhhs", bitmap.toString())

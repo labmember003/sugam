@@ -37,7 +37,6 @@ class SummarizeActivity : AppCompatActivity() {
         binding = ActivitySummarizeBinding.inflate(layoutInflater)
         binding.scanButton.setOnClickListener {
             takeImage()
-//            processImage()
         }
         setContentView(binding.root)
     }
@@ -66,7 +65,6 @@ class SummarizeActivity : AppCompatActivity() {
     }
 
     private fun processImage(){
-        Toast.makeText(this, "SEX", Toast.LENGTH_SHORT).show()
         if (imageBitmap!=null) {
             val image = imageBitmap?.let {
                 InputImage.fromBitmap(it, 0)
@@ -74,7 +72,10 @@ class SummarizeActivity : AppCompatActivity() {
             image?.let {
                 recognizer.process(it)
                     .addOnSuccessListener { visionText ->
-                        Toast.makeText(this, visionText.text, Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(this, visionText.text, Toast.LENGTH_SHORT).show()
+                        val intent = Intent(this, Summarize2Activity::class.java)
+                        intent.putExtra("message", visionText.text)
+                        startActivity(intent)
 //                        binding.textView.text = visionText.text
                     }
                     .addOnFailureListener { e ->
