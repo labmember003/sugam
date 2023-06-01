@@ -10,6 +10,9 @@ import android.widget.Toast
 import androidx.core.view.WindowCompat
 import androidx.navigation.ui.AppBarConfiguration
 import com.falcon.sugam.databinding.ActivitySummarizeBinding
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.ByteArrayOutputStream
 
 private lateinit var appBarConfiguration: AppBarConfiguration
@@ -17,7 +20,10 @@ private lateinit var binding: ActivitySummarizeBinding
 
 
 class SummarizeActivity : AppCompatActivity() {
+    val recognizer = TextRecognition.getClient(TextRecognizerOptions.DEFAULT_OPTIONS)
+    private val REQUEST_IMAGE_CAPTURE=1
 
+    private var imageBitmap: Bitmap? =null
     companion object {
         // Define the pic id
         private const val pic_id = 123
@@ -27,37 +33,57 @@ class SummarizeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        val message = intent.getStringExtra("message")
-        language = intent.getStringExtra("message") ?: ""
+
         binding = ActivitySummarizeBinding.inflate(layoutInflater)
         binding.scanButton.setOnClickListener {
-            val camera_intent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.CUPCAKE) {
-                Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-            } else {
-                TODO("VERSION.SDK_INT < CUPCAKE")
-            }
-            // Start the activity with camera_intent, and request pic id
-            startActivityForResult(camera_intent, pic_id)
+            takeImage()
+//            processImage()
         }
-
         setContentView(binding.root)
+    }
+
+    private fun takeImage(){
+
+        val intent= Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        try {
+            startActivityForResult(intent,REQUEST_IMAGE_CAPTURE)
+        }
+        catch (e:Exception){
+
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == pic_id) {
-            // BitMap is data structure of image file which store the image in memory
-            val photo = data!!.extras!!["data"] as Bitmap?
-            Toast.makeText(this, photo.toString(), Toast.LENGTH_SHORT).show()
-//            uploadPhoto(photo)
-            val intent = Intent(this, Summarize2Activity::class.java)
-            val stream = ByteArrayOutputStream()
-            photo?.compress(Bitmap.CompressFormat.PNG, 100, stream)
-            val byteArray = stream.toByteArray()
-            intent.putExtra("message", language)
-            intent.putExtra("photo", byteArray)
-            startActivity(intent)
+        if (requestCode==REQUEST_IMAGE_CAPTURE && resultCode== RESULT_OK){
+            val extras: Bundle? = data?.extras
+            imageBitmap= extras?.get("data") as Bitmap
+            if (imageBitmap!=null) {
+//                binding.imageView.setImageBitmap(imageBitmap)
+            }
         }
+        processImage()
+    }
 
+    private fun processImage(){
+        Toast.makeText(this, "SEX", Toast.LENGTH_SHORT).show()
+        if (imageBitmap!=null) {
+            val image = imageBitmap?.let {
+                InputImage.fromBitmap(it, 0)
+            }
+            image?.let {
+                recognizer.process(it)
+                    .addOnSuccessListener { visionText ->
+                        Toast.makeText(this, visionText.text, Toast.LENGTH_SHORT).show()
+//                        binding.textView.text = visionText.text
+                    }
+                    .addOnFailureListener { e ->
+
+                    }
+            }
+        }
+        else{
+            Toast.makeText(this, "Please select photo", Toast.LENGTH_SHORT).show()
+        }
     }
 }

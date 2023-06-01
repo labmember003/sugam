@@ -18,7 +18,12 @@ import com.github.kittinunf.fuel.core.Response
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
-
+import android.content.Intent
+import android.provider.MediaStore
+import android.widget.Toast
+import com.google.mlkit.vision.common.InputImage
+import com.google.mlkit.vision.text.TextRecognition
+import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 
 val url = "http://34.171.182.83/upload"
 
