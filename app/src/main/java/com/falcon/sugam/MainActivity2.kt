@@ -33,6 +33,7 @@ class MainActivity2 : AppCompatActivity() {
             val intent = Intent(this, CommifyActivity::class.java)
             startActivity(intent)
         }
+
     }
 
     override fun onSupportNavigateUp(): Boolean {

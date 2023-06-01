@@ -6,24 +6,19 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
-import android.view.View
-import android.widget.TextView
 import android.widget.Toast
-import androidx.cardview.widget.CardView
 import androidx.core.view.WindowCompat
 import androidx.navigation.ui.AppBarConfiguration
-import com.falcon.sugam.databinding.ActivityMainBinding
 import com.falcon.sugam.databinding.ActivitySummarizeBinding
-import java.io.FileOutputStream
+import java.io.ByteArrayOutputStream
 
 private lateinit var appBarConfiguration: AppBarConfiguration
 private lateinit var binding: ActivitySummarizeBinding
 
 
-
 class SummarizeActivity : AppCompatActivity() {
 
+    val summarizeAPIService = Api.fileApiService
     companion object {
         // Define the pic id
         private const val pic_id = 123
@@ -55,15 +50,15 @@ class SummarizeActivity : AppCompatActivity() {
             // BitMap is data structure of image file which store the image in memory
             val photo = data!!.extras!!["data"] as Bitmap?
             Toast.makeText(this, photo.toString(), Toast.LENGTH_SHORT).show()
-            uploadPhoto(photo)
+//            uploadPhoto(photo)
+            val intent = Intent(this, Summarize2Activity::class.java)
+            val stream = ByteArrayOutputStream()
+            photo?.compress(Bitmap.CompressFormat.PNG, 100, stream)
+            val byteArray = stream.toByteArray()
+            intent.putExtra("message", language)
+            intent.putExtra("photo", byteArray)
+            startActivity(intent)
         }
 
-
-    }
-
-    private fun uploadPhoto(photo: Bitmap?) {
-        val message = intent.getStringExtra("message")
-        language
-        Toast.makeText(this, "language", Toast.LENGTH_SHORT).show()
     }
 }
