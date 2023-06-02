@@ -56,22 +56,18 @@
         />
 
 
-
-    <ScrollView
-        android:id="@+id/svView"
+    <LinearLayout
+        android:id="@+id/llhehe"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toTopOf="@+id/ll_layout_bar"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/speakerButton"
-        >
+        app:layout_constraintStart_toStartOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/speakerButton">
 
 
-
-
-
-
-    </ScrollView>
+    </LinearLayout>
     <LinearLayout
         android:id="@+id/ll_layout_bar"
         android:layout_width="match_parent"
@@ -116,3 +112,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+

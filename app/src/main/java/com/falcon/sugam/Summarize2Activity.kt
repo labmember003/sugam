@@ -14,18 +14,18 @@ import android.os.Looper
 import android.speech.RecognizerIntent
 import android.speech.SpeechRecognizer
 import android.speech.tts.TextToSpeech
+import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.view.WindowCompat
 import androidx.navigation.ui.AppBarConfiguration
 import com.falcon.sugam.databinding.ActivitySummarize2Binding
-import com.falcon.sugam.databinding.ActivitySummarizeBinding
 import java.util.*
-import kotlin.reflect.jvm.internal.impl.descriptors.Visibilities.Local
 
 var url = "http://34.171.182.83/upload"
-
-
+var url3 = "http://34.171.182.83/follow_up"
+var globalidValue = 0
 class Summarize2Activity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -61,6 +61,47 @@ class Summarize2Activity : AppCompatActivity() {
         binding.micButton.setOnClickListener {
             askSpeechInput()
         }
+        binding.btnSend.setOnClickListener {
+            val inflater = LayoutInflater.from(this)
+            val customView = inflater.inflate(R.layout.message_item, null)
+            customView.findViewById<TextView>(R.id.tv_message).text = binding.etMessage.text
+            customView.findViewById<TextView>(R.id.tv_bot_message).visibility = View.GONE
+            binding.llhehe.addView(customView)
+            sendFollowUpRequest(binding.etMessage.text.toString())
+        }
+    }
+
+    private fun sendFollowUpRequest(text: String) {
+        val id: Int = globalidValue
+        url3 = "$url3?id=$id&text=$text"
+        Fuel.post(url3)
+            .responseString { _, response, result ->
+                when (result) {
+                    is Result.Success -> {
+                        val responseBody = result.get()
+                        val resultJson = JSONObject(responseBody)
+                        val textValue = resultJson.getString("followup")
+                        Log.i("meribilli", textValue)
+                        Handler(Looper.getMainLooper()).post {
+                            sendBotMessage(textValue)
+                        }
+                    }
+                    is Result.Failure -> {
+                        val error = result.getException()
+                        Log.i("meribilli", error.message.toString())
+                        // Handle the error case
+                        println("Request failed: ${error.message}")
+                    }
+                }
+            }
+    }
+
+    private fun sendBotMessage(textValue: String) {
+        val inflater = LayoutInflater.from(this)
+        val customView = inflater.inflate(R.layout.message_item, null)
+        customView.findViewById<TextView>(R.id.tv_bot_message).text = textValue
+        customView.findViewById<TextView>(R.id.tv_message).visibility = View.GONE
+        binding.llhehe.addView(customView)
     }
 
     private fun askSpeechInput() {
@@ -85,9 +126,10 @@ class Summarize2Activity : AppCompatActivity() {
                         val responseBody = result.get()
                         val resultJson = JSONObject(responseBody)
                         val textValue = resultJson.getString("text")
-                        val idValue = resultJson.getString("id")
+                        val idValue = resultJson.getInt("id")
+                        globalidValue = idValue
                         Log.i("happyhappy", textValue)
-                        Log.i("happyhappyid", idValue)
+                        Log.i("happyhappyid", idValue.toString())
                         Handler(Looper.getMainLooper()).post {
                             binding.summarizedText.text = textValue
                         }
