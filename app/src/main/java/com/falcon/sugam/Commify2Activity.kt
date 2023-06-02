@@ -14,7 +14,7 @@ class Commify2Activity : AppCompatActivity() {
         binding = ActivityCommify2Binding.inflate(layoutInflater)
         setContentView(binding.root)
         val arrayListData: ArrayList<String> = intent.getStringArrayListExtra("data") as ArrayList<String>
-        Toast.makeText(this, arrayListData[0], Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, arrayListData[0], Toast.LENGTH_SHORT).show()
 
         binding.chatRCV.adapter = ChatRcvAdapter(arrayListData)
         binding.chatRCV.layoutManager = LinearLayoutManager(this)

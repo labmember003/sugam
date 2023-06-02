@@ -16,7 +16,12 @@ import com.falcon.sugam.databinding.ActivityMainBinding
 
 var listOfGraduationYear = listOf(
     "Hindi",
-    "English"
+    "English",
+    "Marathi",
+    "Tamil",
+    "Punjabi",
+    "Sanskrit",
+    "Bhopuri"
 )
 
 class MainActivity : AppCompatActivity() {
