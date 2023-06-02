@@ -8,19 +8,31 @@ import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.result.Result
 import org.json.JSONObject
 import android.content.Intent
+import android.os.Handler
+import android.os.Looper
 import android.speech.tts.TextToSpeech
 import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.view.WindowCompat
+import androidx.navigation.ui.AppBarConfiguration
+import com.falcon.sugam.databinding.ActivitySummarize2Binding
+import com.falcon.sugam.databinding.ActivitySummarizeBinding
 import java.util.*
 
 var url = "http://34.171.182.83/upload"
 
 
 class Summarize2Activity : AppCompatActivity() {
+
+    private lateinit var appBarConfiguration: AppBarConfiguration
+    private lateinit var binding: ActivitySummarize2Binding
     lateinit var tts: TextToSpeech
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_summarize2)
+        binding = ActivitySummarize2Binding.inflate(layoutInflater)
+        setContentView(binding.root)
         findViewById<TextView>(R.id.summarizedText).text = intent.getStringExtra("message")
 //        CoroutineScope(Dispatchers.Main).launch {
             val language = intent.getStringExtra("message") ?: "English"
@@ -55,8 +67,19 @@ class Summarize2Activity : AppCompatActivity() {
                         val idValue = resultJson.getString("id")
                         Log.i("happyhappy", textValue)
                         Log.i("happyhappyid", idValue)
-                        findViewById<TextView>(R.id.testview).text = textValue
-                        findViewById<TextView>(R.id.summarizedText).text = textValue
+                        Handler(Looper.getMainLooper()).post {
+                            binding.summarizedText.text = textValue
+                        }
+//                        try {
+//                            Toast.makeText(this, resultJson.getString("text"), Toast.LENGTH_SHORT).show()
+//                            binding.testview.text = textValue
+//                            binding.summarizedText.text = textValue
+//                        }
+//                        catch (e: java.lang.Exception) {
+//                            Log.i("errorrrr", e.message.toString())
+//                        }
+                        Log.i("happyhappyhappy", textValue)
+                        Log.i("happyhappyid", idValue)
                     }
                     is Result.Failure -> {
                         val error = result.getException()
