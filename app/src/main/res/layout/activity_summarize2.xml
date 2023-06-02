@@ -21,7 +21,7 @@
     <androidx.cardview.widget.CardView
         android:id="@+id/summarizedTextCardView"
         android:layout_width="match_parent"
-        android:layout_height="210dp"
+        android:layout_height="200dp"
         android:padding="45dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
@@ -34,7 +34,7 @@
             android:layout_height="match_parent">
             <TextView
                 android:id="@+id/summarizedText"
-                android:padding="24dp"
+                android:padding="16dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="parent"
@@ -54,6 +54,9 @@
         app:layout_constraintTop_toBottomOf="@+id/summarizedTextCardView"
         android:src="@drawable/speaker"
         />
+
+
+
     <ScrollView
         android:id="@+id/svView"
         android:layout_width="match_parent"
@@ -63,6 +66,53 @@
         app:layout_constraintTop_toBottomOf="@+id/speakerButton"
         >
 
+
+
+
+
+
     </ScrollView>
+    <LinearLayout
+        android:id="@+id/ll_layout_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_alignParentBottom="true"
+        android:background="#E4E4E4"
+        android:orientation="horizontal">
+        <ImageView
+            android:id="@+id/micButton"
+            android:layout_width="35dp"
+            android:layout_height="wrap_content"
+            android:src="@drawable/microphone"
+            />
+        <EditText
+            android:id="@+id/et_message"
+            android:inputType="textShortMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight=".5"
+            android:background="@drawable/round_button"
+            android:backgroundTint="@android:color/white"
+            android:hint="Type a message..."
+            android:padding="10dp"
+            android:singleLine="true" />
+
+        <Button
+            android:id="@+id/btn_send"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:background="@drawable/round_button"
+            android:backgroundTint="#26A69A"
+            android:text="Send"
+            android:textColor="@android:color/white" />
+
+    </LinearLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
