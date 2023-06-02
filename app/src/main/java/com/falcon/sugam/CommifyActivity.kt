@@ -26,7 +26,7 @@ class CommifyActivity : AppCompatActivity() {
         binding = ActivityCommifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.submitButton.setOnClickListener {
-            url2 = url2 + "?topic=" + binding.yourNoteET.text.toString()
+            url2 = "http://34.171.182.83/comikify" + "?topic=" + binding.yourNoteET.text.toString()
             getJson()
         }
     }

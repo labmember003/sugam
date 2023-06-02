@@ -73,7 +73,7 @@ class Summarize2Activity : AppCompatActivity() {
 
     private fun sendFollowUpRequest(text: String) {
         val id: Int = globalidValue
-        url3 = "$url3?id=$id&text=$text"
+        url3 = "http://34.171.182.83/follow_up?id=$id&text=$text"
         Fuel.post(url3)
             .responseString { _, response, result ->
                 when (result) {
@@ -117,7 +117,7 @@ class Summarize2Activity : AppCompatActivity() {
     }
 
     private fun getJson(text: String) {
-        url = "$url?text=$text"
+        url = "http://34.171.182.83/upload?text=$text"
         Log.i("cattttt", url)
         Fuel.get(url)
             .responseString { _, response, result ->
