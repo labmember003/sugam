@@ -32,7 +32,7 @@ class CommifyActivity : AppCompatActivity() {
     }
 
     private fun getJson() {
-        Toast.makeText(this, "SEX", Toast.LENGTH_SHORT).show()
+//        Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show()
         val requestBody = """
         {
             "topic": "cat"

@@ -1,35 +1,19 @@
 package com.falcon.sugam
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import com.github.kittinunf.fuel.Fuel
 import com.github.kittinunf.result.Result
 import org.json.JSONObject
-import android.graphics.Bitmap.CompressFormat
-import com.github.kittinunf.fuel.core.FuelManager
-import com.github.kittinunf.fuel.core.Response
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
 import android.content.Intent
-import android.media.Image
-import android.provider.MediaStore
 import android.speech.tts.TextToSpeech
 import android.widget.ImageView
-import android.widget.Toast
-import com.google.mlkit.vision.common.InputImage
-import com.google.mlkit.vision.text.TextRecognition
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.util.*
 
-val url = "http://34.171.182.83/upload"
+var url = "http://34.171.182.83/upload"
+
 
 class Summarize2Activity : AppCompatActivity() {
     lateinit var tts: TextToSpeech
@@ -39,7 +23,7 @@ class Summarize2Activity : AppCompatActivity() {
         setContentView(R.layout.activity_summarize2)
         findViewById<TextView>(R.id.summarizedText).text = intent.getStringExtra("message")
 //        CoroutineScope(Dispatchers.Main).launch {
-//            val language = intent.getStringExtra("message") ?: "English"
+            val language = intent.getStringExtra("message") ?: "English"
 //            val byteArray = intent.getByteArrayExtra("photo")
 //            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)!!
 //            uploadPhoto(url, bitmap, language)
@@ -54,51 +38,33 @@ class Summarize2Activity : AppCompatActivity() {
                 }
             })
         }
+        findViewById<TextView>(R.id.summarizedText).text
+        getJson(findViewById<TextView>(R.id.summarizedText).text.toString())
     }
-    private fun uploadPhoto(url: String, bitmap: Bitmap, language: String) {
-        Log.i("ohhhhhs", bitmap.toString())
-        Log.i("ohhhhhs", language)
-        val image = createJpgFile(bitmap)
-        Fuel.post(url)
-            .header("Content-Type" to "application/json")
-            .body("{ \"image\": \"$image\", \"lang\": \"$language\" }")
-            .response { result ->
-                // Handle the response
+    private fun getJson(text: String) {
+        url = "$url?text=$text"
+        Log.i("cattttt", url)
+//        Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show()
+        Fuel.get(url)
+            .responseString { _, response, result ->
                 when (result) {
                     is Result.Success -> {
-                        val data = result.value
-                        val jsonString = String(data)
-                        val jsonObject = JSONObject(jsonString)
-                        val text = jsonObject.getString("text")
-                        val id = jsonObject.getInt("id")
-                        findViewById<TextView>(R.id.summarizedText).text = text
-                        // Process the JSON response
-                        // Here you can parse the jsonString and access the "text" and "id" values
+                        val responseBody = result.get()
+                        val resultJson = JSONObject(responseBody)
+                        val textValue = resultJson.getString("text")
+                        val idValue = resultJson.getString("id")
+                        Log.i("happyhappy", textValue)
+                        Log.i("happyhappyid", idValue)
+                        findViewById<TextView>(R.id.testview).text = textValue
+                        findViewById<TextView>(R.id.summarizedText).text = textValue
                     }
                     is Result.Failure -> {
-                        val error = result.error
-                        findViewById<TextView>(R.id.summarizedText).text = error.message.toString()
-                        // Handle the error
+                        val error = result.getException()
+                        Log.i("sexyyyy", error.message.toString())
+                        // Handle the error case
+                        println("Request failed: ${error.message}")
                     }
                 }
             }
-    }
-    private fun createJpgFile(bitmap: Bitmap?): File {
-        val jpgFile = File.createTempFile("image", ".jpg")
-        var fileOutputStream: FileOutputStream? = null
-        try {
-            fileOutputStream = FileOutputStream(jpgFile)
-            bitmap?.compress(CompressFormat.JPEG, 100, fileOutputStream)
-            fileOutputStream.flush()
-        } catch (e: IOException) {
-            e.printStackTrace()
-        } finally {
-            try {
-                fileOutputStream?.close()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        return jpgFile
     }
 }

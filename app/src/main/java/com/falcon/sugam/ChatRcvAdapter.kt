@@ -14,7 +14,6 @@ class ChatRcvAdapter(private val arrayListData: ArrayList<String>) : RecyclerVie
         val textMessageUser2: TextView = itemView.findViewById(R.id.user2text)
         val ll1: LinearLayout = itemView.findViewById(R.id.ll1)
         val ll2: LinearLayout = itemView.findViewById(R.id.ll2)
-        val mainLL: LinearLayout = itemView.findViewById(R.id.mainLL)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
