@@ -2,6 +2,7 @@ package com.falcon.sugam
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -18,19 +19,21 @@ class MainActivity2 : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val language = intent.getStringExtra("message")
-//        Toast.makeText(this, language, Toast.LENGTH_SHORT).show()
+        val language = intent.getStringExtra("language")
+        Log.i("Commic", "MainActivity2-"+language)
         binding = ActivityMain2Binding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
         binding.buttonSummarize1.setOnClickListener {
             val intent = Intent(this, SummarizeActivity::class.java)
-            intent.putExtra("message", language)
+            intent.putExtra("language", language)
             startActivity(intent)
         }
         binding.buttonComify2.setOnClickListener {
             val intent = Intent(this, CommifyActivity::class.java)
+            Log.i("Commic", "MainActivitiy- "+language)
+            intent.putExtra("language", language)
             startActivity(intent)
         }
 

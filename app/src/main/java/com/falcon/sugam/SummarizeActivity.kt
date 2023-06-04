@@ -33,7 +33,7 @@ class SummarizeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         super.onCreate(savedInstanceState)
-
+        language = intent.getStringExtra("language").toString()
         binding = ActivitySummarizeBinding.inflate(layoutInflater)
         binding.scanButton.setOnClickListener {
             takeImage()
@@ -75,6 +75,7 @@ class SummarizeActivity : AppCompatActivity() {
 //                        Toast.makeText(this, visionText.text, Toast.LENGTH_SHORT).show()
                         val intent = Intent(this, Summarize2Activity::class.java)
                         intent.putExtra("message", visionText.text)
+                        intent.putExtra("language", language)
                         startActivity(intent)
 //                        binding.textView.text = visionText.text
                     }

@@ -2,19 +2,20 @@ package com.falcon.sugam
 
 import android.content.Intent
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
+import android.util.DisplayMetrics
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.WindowCompat
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
-import androidx.navigation.ui.setupActionBarWithNavController
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.ArrayAdapter
 import com.falcon.sugam.databinding.ActivityMainBinding
+import java.util.*
 
-var listOfGraduationYear = listOf(
+
+var listOfLanguages = listOf(
     "Hindi",
     "English",
     "Marathi",
@@ -37,14 +38,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
         var language = ""
 
-        val adapter5 = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, listOfGraduationYear)
+        val adapter5 = ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, listOfLanguages)
         binding.countriesAutoCompleteTextView.setAdapter(adapter5)
         binding.countriesAutoCompleteTextView.setOnItemClickListener { parent, view, position, id ->
-            language = listOfGraduationYear[position]
+            language = listOfLanguages[position]
         }
         binding.nextButton.setOnClickListener {
             val intent = Intent(this, MainActivity2::class.java)
-            intent.putExtra("message", language)
+            intent.putExtra("language", language)
             startActivity(intent)
         }
 

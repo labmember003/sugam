@@ -31,6 +31,7 @@ class Summarize2Activity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivitySummarize2Binding
     lateinit var tts: TextToSpeech
+    var language : String = ""
 
     private val RQ_SPEECH_RC = 102
 
@@ -40,13 +41,8 @@ class Summarize2Activity : AppCompatActivity() {
         binding = ActivitySummarize2Binding.inflate(layoutInflater)
         setContentView(binding.root)
         findViewById<TextView>(R.id.summarizedText).text = intent.getStringExtra("message")
-//        CoroutineScope(Dispatchers.Main).launch {
-            val language = intent.getStringExtra("message") ?: "English"
-//            val byteArray = intent.getByteArrayExtra("photo")
-//            val bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray!!.size)!!
-//            uploadPhoto(url, bitmap, language)
-//
-//        }
+        language = intent.getStringExtra("language") ?: "English"
+
         findViewById<ImageView>(R.id.speakerButton).setOnClickListener {
             tts = TextToSpeech(this.applicationContext, TextToSpeech.OnInitListener {
                 if (it == TextToSpeech.SUCCESS) {
@@ -73,7 +69,7 @@ class Summarize2Activity : AppCompatActivity() {
 
     private fun sendFollowUpRequest(text: String) {
         val id: Int = globalidValue
-        url3 = "http://34.171.182.83/follow_up?id=$id&text=$text"
+        url3 = "http://34.171.182.83/follow_up?id=$id&text=$text&lang=$language"
         Fuel.post(url3)
             .responseString { _, response, result ->
                 when (result) {
@@ -117,7 +113,7 @@ class Summarize2Activity : AppCompatActivity() {
     }
 
     private fun getJson(text: String) {
-        url = "http://34.171.182.83/upload?text=$text"
+        url = "http://34.171.182.83/upload?text=$text&lang=$language"
         Log.i("cattttt", url)
         Fuel.get(url)
             .responseString { _, response, result ->

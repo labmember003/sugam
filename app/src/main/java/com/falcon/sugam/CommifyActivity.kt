@@ -20,29 +20,26 @@ class CommifyActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityCommifyBinding
+    var langauge : String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        langauge = intent.getStringExtra("language").toString()
+        Log.i("Commic", langauge)
         binding = ActivityCommifyBinding.inflate(layoutInflater)
         setContentView(binding.root)
         binding.submitButton.setOnClickListener {
-            url2 = "http://34.171.182.83/comikify" + "?topic=" + binding.yourNoteET.text.toString()
+            url2 = "http://34.171.182.83/comikify" + "?topic=" + binding.yourNoteET.text.toString() + "&lang=$langauge"
             getJson()
         }
     }
 
     private fun getJson() {
-//        Toast.makeText(this, "CAT", Toast.LENGTH_SHORT).show()
-        val requestBody = """
-        {
-            "topic": "cat"
-        }
-    """.trimIndent()
         Fuel.get(url2)
-            .body(requestBody)
             .responseString { _, response, result ->
                 when (result) {
                     is Result.Success -> {
+
                         val responseBody = result.get()
                         val resultJson = JSONObject(responseBody)
                         val resultValue = resultJson.getString("result")
@@ -51,19 +48,12 @@ class CommifyActivity : AppCompatActivity() {
 
                         val intent = Intent(this, Commify2Activity::class.java)
                         intent.putStringArrayListExtra("data", arrayListData)
+                        Log.i("Commic", arrayListData.toString())
                         startActivity(intent)
-
-                        Log.i("sexyyyy", data[0])
-
-                        // Handle the result value as needed
-                        // For example, print it to the console
-                        println("Result: $resultValue")
                     }
                     is Result.Failure -> {
                         val error = result.getException()
-                        Log.i("sexyyyy", error.message.toString())
-                        // Handle the error case
-                        println("Request failed: ${error.message}")
+                        Log.i("Commic", error.message.toString())
                     }
                 }
             }
