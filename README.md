@@ -1,4 +1,4 @@
-# sugam
+# Sugam
 The Android app "Sugam" addresses the prevalent challenges of information overload and the difficulty in conveying complex concepts. In a digital age inundated with information, Sugam enables users to effortlessly extract key insights and summaries from lengthy content, mitigating information fatigue and enhancing productivity. Moreover, Sugam facilitates the concise and engaging communication of intricate ideas, overcoming the limitations of traditional textual methods.
 
 <p float="left">
